@@ -1,0 +1,17 @@
+@import url("../../variables.css");
+
+@media (min-width: 768px) {
+  .app-layout .site-layout {
+    margin-left: 231px;
+  }
+}
+
+.app-layout .content {
+  margin: 0px;
+  padding: 24px;
+  background-color: var(--bg-color);
+}
+
+.app-layout .ant-layout {
+  background-color: var(--white) !important;
+}

@@ -1,0 +1,30 @@
+:root {
+  --blue: #21435c;
+  --white: #fff;
+  --black: #000;
+  --nav-divider: #f0f1f3;
+  --nav-left-border: #f1f0f8;
+  --nav-name: #333333;
+  --nav-role: #c6c6c6;
+  --bg-color: #f8fcff;
+  --sidebar-text: #808690;
+  --page-head: #111111;
+  --btn-title: #6b6b6b;
+  --btn-val: #6b6b6a;
+  --btn-border: #edeff0;
+  --btn-background: #fafafa;
+  --graph-border: #e0e2e7;
+  --graph-title: #0f0f0fe5;
+  --graph-val: #202224e5;
+  --sensor-wrap-bg: #2a9cfa1a;
+  --sensor-text: #303030e5;
+  --analytics-val: #000000b2;
+  --sensor-val: #000000e5;
+  --service-val: #00000099;
+  --tab-title: #00000066;
+  --door-color: #0072c0;
+  --fuel-tank: #e8e8e8;
+  --sidebar-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  --table-head-bg: #ebf4fa;
+  --anal-val: #4d4d4de5;
+}
