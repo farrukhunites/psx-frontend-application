@@ -7,17 +7,17 @@ import AppLayout from "../Components/AppLayout";
 const AppRoutes = () => {
   let routesComponent;
 
-  const [userType, setUserType] = useState("user");
+  const [userType, setUserType] = useState("public");
 
   switch (userType) {
     case "user":
       routesComponent = <AppLayout contents={<PrivateRoutes />} />;
       break;
     case "public":
-      routesComponent = <PublicRoutes />;
+      routesComponent = <PublicRoutes setUserType={setUserType} />;
       break;
     default:
-      routesComponent = <PublicRoutes />;
+      routesComponent = <PublicRoutes setUserType={setUserType} />;
       break;
   }
 

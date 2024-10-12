@@ -1,0 +1,77 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.login-logo {
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.login-logo img {
+  width: 200px;
+}
+
+.login-welcome {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: normal;
+  color: #333;
+}
+
+.login-form {
+  width: 300px;
+}
+
+.login-input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.login-remember {
+  font-size: 14px;
+}
+
+.login-forgot {
+  font-size: 14px;
+}
+
+.login-button {
+  width: 100%;
+  color: white;
+}
+
+.login-divider {
+  margin: 20px 0;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+.login-google-button {
+  width: 100%;
+  color: white;
+  background-color: #09b2ed;
+  margin-bottom: 20px;
+}
+
+.login-signup {
+  font-size: 14px;
+  color: #666;
+}
+
+.login-container .ant-form-item {
+  margin-bottom: 10px;
+}
