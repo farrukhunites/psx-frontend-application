@@ -6,16 +6,16 @@ import "./style.css";
 
 const { Content } = Layout;
 
-const AppLayout = ({ contents }) => {
+const AppLayout = ({ setUserType, contents }) => {
   return (
-    <div className="app-layout">
-      <Layout style={{ minHeight: "100vh" }}>
-        <Sidebar breakpoint="md" />
-        <Layout className="site-layout">
-          <Content className="content">{contents}</Content>
-        </Layout>
+    // <div className="app-layout">
+    <Layout className="app-layout" style={{ minHeight: "100vh" }}>
+      <Sidebar setUserType={setUserType} breakpoint="md" />
+      <Layout className="site-layout" style={{ minHeight: "100vh" }}>
+        <Content className="content">{contents}</Content>
       </Layout>
-    </div>
+    </Layout>
+    // </div>
   );
 };
 
