@@ -1,17 +1,19 @@
-import { Menu } from "antd";
+import { Button, Menu, Popconfirm } from "antd";
 import Sider from "antd/es/layout/Sider";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../Assets/Images/logo.png";
 import { MdOutlineDashboardCustomize, MdOutlineSpeed } from "react-icons/md";
 import { BsFillFuelPumpFill } from "react-icons/bs";
 import BluetoothDriveIcon from "@mui/icons-material/BluetoothDrive";
+import { LogoutOutlined } from "@ant-design/icons";
 
 import "./style.css";
 
-const Sidebar = ({ breakpoint = null, setPage, setMode }) => {
+const Sidebar = ({ setUserType, breakpoint = null, setPage, setMode }) => {
   const path = useLocation();
   const locationPath = path.pathname;
+  const navigate = useNavigate();
 
   const [selectedId, setSelectedId] = useState("1");
 
@@ -78,6 +80,11 @@ const Sidebar = ({ breakpoint = null, setPage, setMode }) => {
     }
   }, [locationPath]);
 
+  const handleLogout = () => {
+    setUserType("public");
+    navigate("/login");
+  };
+
   return (
     <Sider
       className="sidebar"
@@ -85,12 +92,12 @@ const Sidebar = ({ breakpoint = null, setPage, setMode }) => {
       theme="light"
       breakpoint={breakpoint}
       collapsedWidth="0"
-      style={{ height: "100vh", position: "fixed" }}
+      style={{ height: "100% !important", position: "fixed" }}
     >
       <div>
         <div className="logo-container">
           <img
-            style={{ width: "150px", padding: "5px" }}
+            style={{ width: "180px", padding: "5px" }}
             src={logo}
             alt="test-logo"
           />
@@ -104,6 +111,22 @@ const Sidebar = ({ breakpoint = null, setPage, setMode }) => {
             items={items}
           />
         </div>
+      </div>
+
+      <div className="footer">
+        <Popconfirm
+          title="Logout Application"
+          description="Are you sure you want to logout?"
+          onConfirm={handleLogout}
+        >
+          <Button
+            style={{ width: "100%" }}
+            icon={<LogoutOutlined />}
+            type="primary"
+          >
+            Logout
+          </Button>
+        </Popconfirm>
       </div>
     </Sider>
   );

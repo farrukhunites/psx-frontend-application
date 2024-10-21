@@ -11,7 +11,9 @@ const AppRoutes = () => {
 
   switch (userType) {
     case "user":
-      routesComponent = <AppLayout contents={<PrivateRoutes />} />;
+      routesComponent = (
+        <AppLayout setUserType={setUserType} contents={<PrivateRoutes />} />
+      );
       break;
     case "public":
       routesComponent = <PublicRoutes setUserType={setUserType} />;

@@ -3,6 +3,7 @@
 .sidebar {
   box-shadow: var(--sidebar-shadow);
   z-index: 1000;
+  height: 100% !important;
 }
 
 .sidebar .ant-layout-sider-zero-width-trigger {
@@ -20,13 +21,19 @@
   margin: 0px auto;
 }
 
+.sidebar .ant-layout-sider-children {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .sidebar .logo-container {
   display: flex;
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
-  margin-bottom: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .sidebar .ant-menu {
@@ -95,4 +102,11 @@
 
   background-color: var(--white);
   border-radius: 0px !important;
+}
+
+.sidebar .footer {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
