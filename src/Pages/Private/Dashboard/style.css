@@ -3,20 +3,28 @@
 .dashboard {
   color: var(--blue);
   height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dashboard .section {
+  padding: 20px;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  background-color: var(--white);
 }
 
 .dashboard .dashboard-title {
   text-align: center;
   font-size: 2rem;
-  margin-top: 0px;
-  margin-bottom: 20px;
   color: var(--blue);
 }
 
-.dashboard .section {
+.dashboard .section-inner {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .dashboard .wide-card {
@@ -55,12 +63,11 @@
 .dashboard .charts-container {
   display: flex;
   flex-direction: row;
+  gap: 20px;
 }
-
-.dashboard .pie-chart {
+.dashboard .charts-container .section {
   flex: 1;
 }
-
 .dashboard .table-container .ant-table {
   border-color: var(--border-color) !important;
 }

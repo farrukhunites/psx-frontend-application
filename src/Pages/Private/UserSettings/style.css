@@ -1,0 +1,176 @@
+@import url("../../../variables.css");
+
+.settings {
+  height: 100%;
+  background-color: #f9fafb;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.settings .page-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  height: fit-content;
+  max-width: 852px;
+  width: 80%;
+}
+
+.settings .page-title {
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+  margin-bottom: 20px;
+}
+
+.settings .ant-tabs-nav {
+  width: 100%;
+  padding-left: 16px;
+
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: white;
+
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+
+.settings .tab-page {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.settings .section {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+@media screen and (max-width: 1200px) {
+  .settings .section {
+    flex-direction: column;
+  }
+}
+
+.settings .left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings .title {
+  color: #111827;
+
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.settings .desc {
+  color: #4b5563;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.settings .right {
+  flex: 2;
+}
+
+.settings .form-container {
+  border-radius: 5px;
+
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.06),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+}
+
+.settings .form-content {
+  border-radius: 10px 10px 0 0;
+
+  padding: 24px;
+  background-color: white;
+}
+
+.settings .form-heading {
+  color: #111827;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+
+  margin-bottom: 16px;
+}
+
+.settings .form-row {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.settings .form-inner {
+  flex: 1;
+}
+
+.settings .form-footer {
+  border-radius: 0px 0px 10px 10px;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: flex-end;
+  height: fit-content;
+  background-color: #f9fafb !important;
+}
+
+.settings .line {
+  border: 1px solid #e5e7eb;
+  width: 100%;
+}
+
+.settings .ant-upload-text {
+  color: #000;
+  text-align: center;
+
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.settings .ant-upload-hint {
+  color: #4b5563;
+  text-align: center;
+
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.settings .label-head {
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.settings .label-desc {
+  color: #64748b;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}

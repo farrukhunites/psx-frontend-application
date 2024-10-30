@@ -55,7 +55,7 @@ const PolarAreaChart = () => {
         options={options}
         series={series}
         type="polarArea"
-        height={350}
+        height={450}
       />
     </div>
   );

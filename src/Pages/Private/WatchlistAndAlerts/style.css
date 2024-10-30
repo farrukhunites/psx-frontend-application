@@ -1,0 +1,42 @@
+.watchlist-alerts-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.watchlist-alerts-page .section {
+  padding: 20px;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  background-color: var(--white);
+}
+
+.watchlist-alerts-page .section .section-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.watchlist-alerts-page .accordion-title {
+  font-size: 24px;
+  color: var(--blue);
+  margin-bottom: 20px;
+}
+
+.watchlist-alerts-page .ant-list-item {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.watchlist-alerts-page .stock-detail {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.watchlist-alerts-page .fulfilled-alerts .ant-alert-with-description {
+  background-color: rgb(208, 241, 208);
+  border-color: green;
+}

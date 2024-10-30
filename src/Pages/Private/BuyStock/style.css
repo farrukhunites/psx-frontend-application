@@ -1,0 +1,37 @@
+@import url("../../../variables.css");
+
+.add-stock {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-stock .section {
+  padding: 20px;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  background-color: var(--white);
+}
+
+.add-stock h2 {
+  color: var(--blue);
+}
+
+.add-stock .ant-input-number-input {
+  color: red !important;
+}
+
+.add-stock .low .ant-input-disabled {
+  background-color: #2cbba5 !important;
+  color: var(--black) !important;
+}
+
+.add-stock .high .ant-input-disabled {
+  background-color: #ff4d4f !important;
+  color: var(--black) !important;
+}
+
+.add-stock .medium .ant-input-disabled {
+  background-color: #ffcc00 !important;
+  color: var(--black) !important;
+}

@@ -4,8 +4,11 @@ import ReactApexChart from "react-apexcharts";
 const RadialBarChart = () => {
   const options = {
     chart: {
-      height: 350,
+      height: 250,
       type: "radialBar",
+    },
+    legend: {
+      show: true,
     },
     plotOptions: {
       radialBar: {
@@ -34,6 +37,7 @@ const RadialBarChart = () => {
       "Fertilizer",
       "Steel",
     ],
+
     colors: ["#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0", "#3F51B5"],
   };
 
@@ -46,7 +50,7 @@ const RadialBarChart = () => {
         options={options}
         series={series}
         type="radialBar"
-        height={350}
+        height={250}
       />
     </div>
   );

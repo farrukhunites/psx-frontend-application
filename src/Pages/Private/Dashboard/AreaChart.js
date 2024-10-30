@@ -15,6 +15,7 @@ const AreaChart = () => {
     },
     stroke: {
       curve: "smooth",
+      width: "2px",
     },
     xaxis: {
       type: "datetime",
@@ -29,7 +30,7 @@ const AreaChart = () => {
         "2024-10-18",
         "2024-10-19",
         "2024-10-20",
-      ], // Last 10 days
+      ],
     },
     yaxis: {
       title: {
@@ -39,22 +40,14 @@ const AreaChart = () => {
     fill: {
       type: "gradient",
       gradient: {
-        shadeIntensity: 1,
-        opacityFrom: 0.7,
-        opacityTo: 0.9,
-        stops: [0, 90, 100],
-        colorStops: [
-          {
-            offset: 0,
-            color: "#00C6FF", // Start of the gradient (blue)
-            opacity: 1,
-          },
-          {
-            offset: 100,
-            color: "#0072FF", // End of the gradient (darker blue)
-            opacity: 1,
-          },
-        ],
+        shade: "light",
+        type: "vertical",
+        shadeIntensity: 0.5,
+        gradientToColors: ["#2A9CFA", "#01CFC3"],
+        inverseColors: false,
+        opacityFrom: 0.9,
+        opacityTo: 0.15,
+        stops: [0, 100],
       },
     },
     tooltip: {
