@@ -233,7 +233,7 @@ const Dashboard = () => {
     <div className="dashboard">
       <h1 className="dashboard-title">Stock Account Dashboard</h1>
 
-      <div className="section">
+      <div className="section-inner">
         <div className="card">
           <h3 className="title">Invested Amount</h3>
           <div className="value">Rs. 150,000</div>
@@ -252,36 +252,43 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="area-chart">
-        <AreaChart />
+      <div className="section">
+        <div className="area-chart">
+          <AreaChart />
+        </div>
       </div>
 
       <div className="charts-container">
-        <div className="pie-chart">
+        <div className="section">
           <RadialBarChart />
         </div>
-        <div className="pie-chart">
+        <div className="section">
           <PolarAreaChart />
         </div>
       </div>
 
-      <div className="table-container">
-        <Table
-          columns={columnsStock}
-          dataSource={dataStock}
-          pagination={false}
-          bordered
-        />
+      <div className="section">
+        <h2>Stock Holdings</h2>
+        <div className="table-container">
+          <Table
+            columns={columnsStock}
+            dataSource={dataStock}
+            pagination={false}
+            bordered
+          />
+        </div>
       </div>
 
-      <div className="table-container">
-        <h2>Stock Suggestions</h2>
-        <Table
-          columns={columnsSuggestions}
-          dataSource={dataSuggestions}
-          pagination={false}
-          bordered
-        />
+      <div className="section">
+        <div className="table-container">
+          <h2>Stock Suggestions</h2>
+          <Table
+            columns={columnsSuggestions}
+            dataSource={dataSuggestions}
+            pagination={false}
+            bordered
+          />
+        </div>
       </div>
     </div>
   );

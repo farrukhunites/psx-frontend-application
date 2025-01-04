@@ -47,9 +47,9 @@ const Sidebar = ({ setUserType, breakpoint = null, setPage, setMode }) => {
       label: (
         <>
           <div className="left-decor"></div>
-          <Link to="/stock-details">
+          <Link to="/stock-analysis">
             <BsFillFuelPumpFill size={20} />
-            <span className="menu-item-label">Top Stock</span>
+            <span className="menu-item-label">Stock Analysis</span>
           </Link>
         </>
       ),
@@ -59,9 +59,33 @@ const Sidebar = ({ setUserType, breakpoint = null, setPage, setMode }) => {
       label: (
         <>
           <div className="left-decor"></div>
+          <Link to="/watchlists&alerts">
+            <BluetoothDriveIcon size={20} />
+            <span className="menu-item-label">Watchlists & Alerts</span>
+          </Link>
+        </>
+      ),
+    },
+    {
+      key: "5",
+      label: (
+        <>
+          <div className="left-decor"></div>
+          <Link to="/stock-news">
+            <BluetoothDriveIcon size={20} />
+            <span className="menu-item-label">Stock News</span>
+          </Link>
+        </>
+      ),
+    },
+    {
+      key: "6",
+      label: (
+        <>
+          <div className="left-decor"></div>
           <Link to="/settings">
             <BluetoothDriveIcon size={20} />
-            <span className="menu-item-label">User Settings</span>
+            <span className="menu-item-label">Settings</span>
           </Link>
         </>
       ),
@@ -73,10 +97,14 @@ const Sidebar = ({ setUserType, breakpoint = null, setPage, setMode }) => {
       setSelectedId("1");
     } else if (locationPath.includes("/portfolio")) {
       setSelectedId("2");
-    } else if (locationPath.includes("/stock-details")) {
+    } else if (locationPath.includes("/stock-analysis")) {
       setSelectedId("3");
-    } else if (locationPath.includes("/settings")) {
+    } else if (locationPath.includes("/watchlists&alerts")) {
       setSelectedId("4");
+    } else if (locationPath.includes("/stock-news")) {
+      setSelectedId("5");
+    } else if (locationPath.includes("/settings")) {
+      setSelectedId("6");
     }
   }, [locationPath]);
 

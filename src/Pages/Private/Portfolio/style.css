@@ -1,0 +1,146 @@
+@import url("../../../variables.css");
+
+.portfolio {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.portfolio .section {
+  padding: 20px;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  background-color: var(--white);
+}
+
+.portfolio .section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.portfolio .inner-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.portfolio .user-info {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.portfolio .name {
+  font-size: 28px;
+  color: var(--blue);
+  margin-bottom: 10px;
+}
+
+.portfolio .portfolio-info {
+  flex: 2;
+  display: flex;
+  justify-content: space-between;
+}
+
+.portfolio .info-item {
+  padding: 10px;
+  text-align: center;
+}
+
+.portfolio .info-item h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.portfolio .risk-level {
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #fff;
+
+  text-align: center;
+}
+
+.portfolio .risk-level.low {
+  background-color: #2cbba5;
+}
+
+.portfolio .risk-level.medium {
+  background-color: #ffcc00;
+}
+
+.portfolio .risk-level.high {
+  background-color: red;
+}
+
+.portfolio .accordion-title {
+  font-size: 24px;
+  color: var(--blue);
+  margin-bottom: 20px;
+}
+
+.portfolio .ant-collapse-header {
+  font-weight: bold;
+}
+
+.portfolio .ant-collapse-content {
+  background-color: #fff;
+}
+
+.portfolio .ant-collapse {
+  border-radius: 8px;
+}
+
+.portfolio .stock-details-horizontal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+
+.portfolio .stock-details-horizontal p {
+  flex: 1;
+  margin: 5px 15px;
+  min-width: 120px;
+}
+
+.portfolio .stock-details-horizontal p strong {
+  color: #0073e6;
+  margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+  .portfolio .stock-details-horizontal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .portfolio .stock-details-horizontal p {
+    margin: 5px 0;
+  }
+}
+
+.portfolio .btn-holder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.portfolio .table-container .ant-table {
+  border-color: var(--border-color) !important;
+}
+
+.portfolio .table-container .ant-table-thead .ant-table-cell {
+  background-color: var(--blue) !important;
+  color: var(--white);
+  border-color: var(--border-color) !important;
+}
+
+.portfolio .table-container .ant-table-cell {
+  padding: 5px !important;
+  border-color: var(--border-color) !important;
+}
+
+.portfolio .ant-card {
+  margin-bottom: 10px !important;
+}
