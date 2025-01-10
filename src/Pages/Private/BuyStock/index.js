@@ -12,42 +12,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
 import "./style.css";
+import { getAllStocks } from "../../../API/Stocks";
+import dayjs from "dayjs";
+import { bulkTransaction, createTransaction } from "../../../API/Transactions";
 
 const { Option } = Select;
 const { Dragger } = Upload;
 
-const stockList = [
-  {
-    name: "Oil & Gas Development Company",
-    shortName: "OGDC",
-    riskLevel: "medium",
-  },
-  { name: "Habib Bank Limited", shortName: "HBL", riskLevel: "high" },
-  { name: "Lucky Cement", shortName: "LUCK", riskLevel: "low" },
-  { name: "United Bank Limited", shortName: "UBL", riskLevel: "medium" },
-  { name: "Fauji Fertilizer Company", shortName: "FFC", riskLevel: "low" },
-  { name: "Pakistan Petroleum Limited", shortName: "PPL", riskLevel: "medium" },
-  { name: "Engro Corporation", shortName: "ENGRO", riskLevel: "high" },
-  { name: "Sui Northern Gas Pipelines", shortName: "SNGP", riskLevel: "low" },
-  {
-    name: "Dawood Hercules Corporation",
-    shortName: "DAWH",
-    riskLevel: "medium",
-  },
-  { name: "Bank Alfalah", shortName: "BAFL", riskLevel: "high" },
-  { name: "National Bank of Pakistan", shortName: "NBP", riskLevel: "medium" },
-  { name: "Meezan Bank", shortName: "MEBL", riskLevel: "low" },
-  { name: "Millat Tractors", shortName: "MTL", riskLevel: "high" },
-  { name: "Nishat Mills", shortName: "NML", riskLevel: "medium" },
-  { name: "Pakistan State Oil", shortName: "PSO", riskLevel: "high" },
-  { name: "Kot Addu Power Company", shortName: "KAPCO", riskLevel: "low" },
-  { name: "Pak Suzuki Motors", shortName: "PSMC", riskLevel: "medium" },
-  { name: "TRG Pakistan", shortName: "TRG", riskLevel: "high" },
-  { name: "Hub Power Company", shortName: "HUBC", riskLevel: "low" },
-  { name: "Gul Ahmed Textile Mills", shortName: "GATM", riskLevel: "medium" },
-];
-
-const AddStock = () => {
+const AddStock = ({ userData }) => {
   const [form] = Form.useForm();
   const [selectedStock, setSelectedStock] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -55,23 +27,40 @@ const AddStock = () => {
   const [purchasePrice, setPurchasePrice] = useState(0);
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [stockList, setStockData] = useState([]);
   const navigate = useNavigate();
 
-  console.log(fileList, fileList.length);
-
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log("Received values:", values);
     setLoading(true);
 
-    setTimeout(() => {
-      message.success("Stock bought successfully!");
-      setLoading(false);
-      navigate("/portfolio");
-    }, 2000);
+    const purchaseDate = values.purchaseDate?.$d; // Access the native Date object
+    const timestamp = purchaseDate
+      ? dayjs(purchaseDate).toISOString() // Convert to ISO 8601 format
+      : null;
+
+    const data = {
+      ...values,
+      type: "buy",
+      timestamp, // Add the converted timestamp
+    };
+
+    try {
+      const res = await createTransaction(userData?.id, data); // Fetch data using API function
+      setTimeout(() => {
+        message.success("Stock bought successfully!");
+        setLoading(false);
+        navigate("/portfolio");
+      }, 2000);
+    } catch (err) {
+      console.log(err); // Set error if API call fails
+    } finally {
+      setLoading(false); // Stop loading indicator
+    }
   };
 
   const handleStockChange = (value) => {
-    const stock = stockList.find((stock) => stock.name === value);
+    const stock = stockList.find((stock) => stock.stock_symbol === value);
     setSelectedStock(stock);
     form.setFieldsValue({ riskLevel: stock?.riskLevel });
   };
@@ -85,6 +74,7 @@ const AddStock = () => {
   };
 
   const beforeUpload = (file) => {
+    file.preventDefault();
     const isPDF = file.type === "application/pdf";
     if (!isPDF) {
       message.error(`${file.name} is not a PDF file`);
@@ -97,24 +87,63 @@ const AddStock = () => {
     return isPDF || Upload.LIST_IGNORE;
   };
 
-  const handleFileChange = ({ fileList }) => {
+  const handleFileChange = async ({ fileList }) => {
     setFileList(fileList);
+  };
+  const handleFileFinish = async () => {
+    if (fileList.length === 0) {
+      message.error("Please upload a file.");
+      return;
+    }
+
+    const formData = new FormData();
+    const file = fileList[0]?.originFileObj;
+    if (!file) {
+      message.error("No file found in the upload list.");
+      return;
+    }
+
+    formData.append("file", file);
+
+    setLoading(true);
+
+    try {
+      const res = await bulkTransaction(userData?.id, formData);
+
+      setTimeout(() => {
+        message.success("Stock bought successfully!");
+        setLoading(false);
+        navigate("/portfolio");
+      }, 2000);
+    } catch (err) {
+      console.error("Error uploading file:", err);
+      message.error("Failed to upload file.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     setPurchasePrice(sharePrice * quantity);
+    const getStocksData = async () => {
+      try {
+        const data = await getAllStocks();
+        setStockData(data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getStocksData();
   }, [sharePrice, quantity]);
 
   return (
     <div className="add-stock">
       <div className="section">
         <h2>Bulk Buy/Sell Stocks</h2>
-        <Form
-          layout="vertical"
-          onFinish={() => {
-            message.success("PDF files uploaded successfully!");
-          }}
-        >
+        <Form layout="vertical" onFinish={handleFileFinish}>
           <Form.Item
             name="bulkUpload"
             label="Upload PDF Files"
@@ -125,6 +154,7 @@ const AddStock = () => {
               onChange={handleFileChange}
               fileList={fileList}
               multiple={false}
+              maxCount={1}
             >
               <p className="ant-upload-drag-icon">
                 <UploadOutlined />
@@ -162,21 +192,21 @@ const AddStock = () => {
           }}
         >
           <Form.Item
-            name="stockName"
+            name="stock_symbol"
             label="Stock Name"
             rules={[{ required: true, message: "Please select a stock" }]}
           >
             <Select placeholder="Select stock" onChange={handleStockChange}>
               {stockList.map((stock, index) => (
-                <Option key={index} value={stock.name}>
-                  {`${stock.name} (${stock.shortName})`}
+                <Option key={index} value={stock.stock_symbol}>
+                  {`${stock.stock_name} (${stock.stock_symbol})`}
                 </Option>
               ))}
             </Select>
           </Form.Item>
 
           <Form.Item
-            name="price"
+            name="price_per_share"
             label="Price per Share (Rs.)"
             rules={[
               { required: true, message: "Please enter the price per share" },
@@ -193,7 +223,7 @@ const AddStock = () => {
           </Form.Item>
 
           <Form.Item
-            name="quantity"
+            name="shares"
             label="Quantity"
             rules={[{ required: true, message: "Please enter the quantity" }]}
           >
@@ -222,7 +252,7 @@ const AddStock = () => {
             </span>
           </Form.Item>
 
-          <Form.Item name="riskLevel" label="Risk Level">
+          {/* <Form.Item name="riskLevel" label="Risk Level">
             <div className={selectedStock?.riskLevel}>
               <Input
                 value={selectedStock?.riskLevel.toUpperCase() || ""}
@@ -230,7 +260,7 @@ const AddStock = () => {
                 disabled
               />
             </div>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item>
             <Button

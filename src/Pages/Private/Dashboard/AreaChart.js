@@ -1,7 +1,10 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const AreaChart = () => {
+const AreaChart = ({ data }) => {
+  const categories = data?.map((item) => item?.x) || [];
+  const portfolioValues = data?.map((item) => item?.y) || [];
+
   const options = {
     chart: {
       type: "area",
@@ -18,19 +21,7 @@ const AreaChart = () => {
       width: "2px",
     },
     xaxis: {
-      type: "datetime",
-      categories: [
-        "2024-10-11",
-        "2024-10-12",
-        "2024-10-13",
-        "2024-10-14",
-        "2024-10-15",
-        "2024-10-16",
-        "2024-10-17",
-        "2024-10-18",
-        "2024-10-19",
-        "2024-10-20",
-      ],
+      categories: categories,
     },
     yaxis: {
       title: {
@@ -60,10 +51,7 @@ const AreaChart = () => {
   const series = [
     {
       name: "Portfolio Value",
-      data: [
-        150000, 151500, 149800, 152000, 153000, 155000, 154500, 156000, 157500,
-        159000,
-      ], // Example portfolio values for last 10 days
+      data: portfolioValues, // Example portfolio values for last 10 days
     },
   ];
 

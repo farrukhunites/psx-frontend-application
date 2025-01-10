@@ -1,7 +1,10 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const RadialBarChart = () => {
+const RadialBarChart = ({ data }) => {
+  const categories = data?.map((item) => item?.x) || [];
+  const values = data?.map((item) => item?.y) || [];
+
   const options = {
     chart: {
       height: 250,
@@ -29,19 +32,12 @@ const RadialBarChart = () => {
         },
       },
     },
-    labels: [
-      "Energy",
-      "Banking",
-      "Cement",
-      "Telecommunication",
-      "Fertilizer",
-      "Steel",
-    ],
+    labels: categories,
 
     colors: ["#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0", "#3F51B5"],
   };
 
-  const series = [44, 55, 67, 83, 69, 92]; // Example sector percentage values
+  const series = values;
 
   return (
     <div>

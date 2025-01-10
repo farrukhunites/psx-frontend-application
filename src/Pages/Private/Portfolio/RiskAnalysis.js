@@ -1,18 +1,24 @@
 import React from "react";
 import { Progress, Card, Row, Col } from "antd";
 
-const RiskAnalysis = () => {
+const RiskAnalysis = ({
+  risk_level_per,
+  std,
+  valueAtRisk1,
+  market_sensitivity,
+  impact,
+}) => {
   // Sample risk analysis data
   const riskData = {
-    riskLevel: "Medium", // Overall risk level based on asset volatility
+    riskLevel: risk_level_per, // Overall risk level based on asset volatility
     volatilityMetrics: {
-      standardDeviation: "12.5%", // Standard deviation as a measure of volatility
-      betaCoefficient: "1.2", // Beta coefficient compared to market index
-      valueAtRisk: "Rs. 50,000", // Value-at-Risk (VaR) for the portfolio
+      standardDeviation: std, // Standard deviation as a measure of volatility
+      // Beta coefficient compared to market index
+      valueAtRisk: valueAtRisk1, // Value-at-Risk (VaR) for the portfolio
     },
     sensitivity: {
-      marketSensitivity: "Moderate", // Sensitivity of portfolio to market fluctuations
-      externalFactorImpact: "Low", // Impact of external factors (e.g., inflation, policy changes)
+      marketSensitivity: market_sensitivity, // Sensitivity of portfolio to market fluctuations
+      externalFactorImpact: impact, // Impact of external factors (e.g., inflation, policy changes)
     },
   };
 
@@ -25,20 +31,20 @@ const RiskAnalysis = () => {
         <h3>Risk Level Indicator</h3>
         <p>
           Based on your holdings, your overall risk level is:{" "}
-          <strong>{riskData.riskLevel}</strong>
+          <strong>
+            {riskData?.riskLevel < 50
+              ? "LOW"
+              : riskData?.riskLevel > 50 && riskData?.riskLevel < 70
+              ? "MODERATE"
+              : "HIGH"}
+          </strong>
         </p>
         <Progress
-          percent={
-            riskData.riskLevel === "Low"
-              ? 30
-              : riskData.riskLevel === "Medium"
-              ? 60
-              : 90
-          }
+          percent={riskData?.riskLevel}
           status={
-            riskData.riskLevel === "Low"
+            riskData?.riskLevel < 50
               ? "success"
-              : riskData.riskLevel === "Medium"
+              : riskData?.riskLevel > 50 && riskData?.riskLevel < 70
               ? "active"
               : "exception"
           }
@@ -55,15 +61,10 @@ const RiskAnalysis = () => {
               {riskData.volatilityMetrics.standardDeviation}
             </div>
           </Col>
+
           <Col span={8}>
             <div className="metric-item">
-              <strong>Beta Coefficient:</strong>{" "}
-              {riskData.volatilityMetrics.betaCoefficient}
-            </div>
-          </Col>
-          <Col span={8}>
-            <div className="metric-item">
-              <strong>Value-at-Risk (VaR):</strong>{" "}
+              <strong>Value-at-Risk (VaR):</strong> Rs.{" "}
               {riskData.volatilityMetrics.valueAtRisk}
             </div>
           </Col>

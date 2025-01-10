@@ -10,7 +10,13 @@ import { LogoutOutlined } from "@ant-design/icons";
 
 import "./style.css";
 
-const Sidebar = ({ setUserType, breakpoint = null, setPage, setMode }) => {
+const Sidebar = ({
+  setUserType,
+  setUserData,
+  breakpoint = null,
+  setPage,
+  setMode,
+}) => {
   const path = useLocation();
   const locationPath = path.pathname;
   const navigate = useNavigate();
@@ -42,18 +48,18 @@ const Sidebar = ({ setUserType, breakpoint = null, setPage, setMode }) => {
         </>
       ),
     },
-    {
-      key: "3",
-      label: (
-        <>
-          <div className="left-decor"></div>
-          <Link to="/stock-analysis">
-            <BsFillFuelPumpFill size={20} />
-            <span className="menu-item-label">Stock Analysis</span>
-          </Link>
-        </>
-      ),
-    },
+    // {
+    //   key: "3",
+    //   label: (
+    //     <>
+    //       <div className="left-decor"></div>
+    //       <Link to="/stock-analysis">
+    //         <BsFillFuelPumpFill size={20} />
+    //         <span className="menu-item-label">Stock Analysis</span>
+    //       </Link>
+    //     </>
+    //   ),
+    // },
     {
       key: "4",
       label: (
@@ -109,7 +115,8 @@ const Sidebar = ({ setUserType, breakpoint = null, setPage, setMode }) => {
   }, [locationPath]);
 
   const handleLogout = () => {
-    setUserType("public");
+    localStorage.clear();
+    setUserData(null);
     navigate("/login");
   };
 

@@ -6,7 +6,7 @@ import logo from "../../../Assets/Images/logo.png";
 import "./style.css";
 import { login } from "../../../API/Auth";
 
-const Login = ({ setUserType }) => {
+const Login = ({ setUserType, setUserData }) => {
   const [loading, setLoading] = useState(false); // State to manage the loading spinner on the button
 
   const openNotification = (type, message, description) => {
@@ -25,12 +25,15 @@ const Login = ({ setUserType }) => {
       const response = await login(values.username, values.password);
       openNotification("success", "Login Successful", response.message);
 
-      console.log("Login successful:", response.admin);
+      setUserData(response?.user);
+      localStorage.setItem("userData", JSON.stringify(response?.user));
+
+      console.log("Login successful:", response?.message);
       setUserType("user");
       navigate("/dashboard");
     } catch (err) {
       openNotification("error", "Login Failed", "Invalid username or password");
-      console.error("Login failed:", "Invalid username or password");
+      console.error("Login failed:", "Invalid username or password", err);
     } finally {
       setLoading(false); // Hide loading spinner
     }

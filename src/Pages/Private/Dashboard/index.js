@@ -1,205 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import { Table } from "antd";
 import RadialBarChart from "./RadialBarChart";
 import PolarAreaChart from "./PolarAreaChart";
 import AreaChart from "./AreaChart";
+import { getDashboard } from "../../../API/Dashboard";
+import ClipLoader from "react-spinners/ClipLoader";
 
-const Dashboard = () => {
-  const dataStock = [
-    {
-      key: "1",
-      stockName: "Oil & Gas Development Company",
-      priceBought: 150,
-      currentPrice: 160,
-      expectedHighLow: "165/145",
-      dayChange: "+4%",
-      profitLoss: "+10",
-    },
-    {
-      key: "2",
-      stockName: "Habib Bank Limited",
-      priceBought: 100,
-      currentPrice: 95,
-      expectedHighLow: "110/90",
-      dayChange: "-5%",
-      profitLoss: "-5",
-    },
-    {
-      key: "3",
-      stockName: "Lucky Cement",
-      priceBought: 700,
-      currentPrice: 710,
-      expectedHighLow: "730/680",
-      dayChange: "+1%",
-      profitLoss: "+10",
-    },
-    {
-      key: "4",
-      stockName: "Fauji Fertilizer Company",
-      priceBought: 180,
-      currentPrice: 175,
-      expectedHighLow: "190/170",
-      dayChange: "-3%",
-      profitLoss: "-5",
-    },
-    {
-      key: "5",
-      stockName: "Pakistan Telecommunication Company",
-      priceBought: 30,
-      currentPrice: 32,
-      expectedHighLow: "35/28",
-      dayChange: "+6%",
-      profitLoss: "+2",
-    },
-    {
-      key: "6",
-      stockName: "United Bank Limited",
-      priceBought: 120,
-      currentPrice: 130,
-      expectedHighLow: "135/115",
-      dayChange: "+8%",
-      profitLoss: "+10",
-    },
-    {
-      key: "7",
-      stockName: "Engro Corporation",
-      priceBought: 250,
-      currentPrice: 240,
-      expectedHighLow: "260/230",
-      dayChange: "-4%",
-      profitLoss: "-10",
-    },
-    {
-      key: "8",
-      stockName: "Mughal Iron & Steel Industries",
-      priceBought: 50,
-      currentPrice: 52,
-      expectedHighLow: "55/48",
-      dayChange: "+4%",
-      profitLoss: "+2",
-    },
-    {
-      key: "9",
-      stockName: "Sui Northern Gas Pipelines",
-      priceBought: 50,
-      currentPrice: 48,
-      expectedHighLow: "55/45",
-      dayChange: "-4%",
-      profitLoss: "-2",
-    },
-    {
-      key: "10",
-      stockName: "Cement Company",
-      priceBought: 900,
-      currentPrice: 850,
-      expectedHighLow: "950/800",
-      dayChange: "-5%",
-      profitLoss: "-50",
-    },
-  ];
+const Dashboard = ({ userData }) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  console.log(data);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const data = await getDashboard(userData?.id); // Fetch data using API function
+        setData(data); // Update state with fetched data
+      } catch (err) {
+        console.log(err); // Set error if API call fails
+      } finally {
+        setLoading(false); // Stop loading indicator
+      }
+    };
+
+    if (userData?.id) {
+      fetchDashboardData(); // Trigger API call
+    }
+  }, [userData]);
 
   const columnsStock = [
     {
       title: "Stock Name",
-      dataIndex: "stockName",
-      key: "stockName",
+      dataIndex: "stock_name",
+      key: "stock_name",
       render: (text) => <b>{text}</b>,
     },
     {
       title: "Price Bought",
-      dataIndex: "priceBought",
-      key: "priceBought",
+      dataIndex: "price_bought",
+      key: "price_bought",
       render: (text) => `Rs. ${text}`,
     },
     {
       title: "Current Price",
-      dataIndex: "currentPrice",
-      key: "currentPrice",
+      dataIndex: "current_price",
+      key: "current_price",
       render: (text) => `Rs. ${text}`,
     },
     {
       title: "Expected High/Low",
-      dataIndex: "expectedHighLow",
-      key: "expectedHighLow",
+      dataIndex: "expected",
+      key: "expected",
     },
     {
       title: "Day Change",
-      dataIndex: "dayChange",
-      key: "dayChange",
+      dataIndex: "day_change",
+      key: "day_change",
       render: (text) => (
-        <span style={{ color: text.startsWith("+") ? "green" : "red" }}>
-          {text.startsWith("+") ? `${text}` : text}
+        <span style={{ color: text.startsWith("(-") ? "red" : "green" }}>
+          {text}
         </span>
       ),
     },
     {
       title: "Profit/Loss",
-      dataIndex: "profitLoss",
-      key: "profitLoss",
+      dataIndex: "profit_loss",
+      key: "profit_loss",
       render: (text) => (
-        <span style={{ color: text.startsWith("+") ? "green" : "red" }}>
-          {text.startsWith("+") ? `${text}` : text}
-        </span>
+        <span style={{ color: text > 0 ? "green" : "red" }}>{text}</span>
       ),
-    },
-  ];
-
-  const dataSuggestions = [
-    {
-      key: "1",
-      stockName: "Oil & Gas Development Company",
-      currentPrice: 160,
-      volume: 1200000,
-      suggestion: "Buy",
-      riskPreference: "Medium",
-    },
-    {
-      key: "2",
-      stockName: "Habib Bank Limited",
-      currentPrice: 95,
-      volume: 800000,
-      suggestion: "Sell",
-      riskPreference: "Low",
-    },
-    {
-      key: "3",
-      stockName: "Lucky Cement",
-      currentPrice: 710,
-      volume: 500000,
-      suggestion: "Buy",
-      riskPreference: "High",
-    },
-    {
-      key: "4",
-      stockName: "Fauji Fertilizer Company",
-      currentPrice: 175,
-      volume: 600000,
-      suggestion: "Sell",
-      riskPreference: "Medium",
-    },
-    {
-      key: "5",
-      stockName: "Engro Corporation",
-      currentPrice: 240,
-      volume: 400000,
-      suggestion: "Buy",
-      riskPreference: "Low",
     },
   ];
 
   const columnsSuggestions = [
     {
       title: "Stock Name",
-      dataIndex: "stockName",
+      dataIndex: "stock_name",
       key: "stockName",
       render: (text) => <b>{text}</b>,
     },
     {
       title: "Current Price",
-      dataIndex: "currentPrice",
+      dataIndex: "current_price",
       key: "currentPrice",
-      render: (text) => `Rs. ${text}`,
+      render: (text) => `${text}`,
     },
     {
       title: "Volume",
@@ -217,17 +103,25 @@ const Dashboard = () => {
     },
     {
       title: "Risk Preference",
-      dataIndex: "riskPreference",
+      dataIndex: "risk_preference",
       key: "riskPreference",
       render: (text) => {
         let color = "";
-        if (text === "High") color = "red";
-        if (text === "Medium") color = "orange";
-        if (text === "Low") color = "green";
-        return <span style={{ color }}>{text}</span>;
+        if (text === "high") color = "red";
+        if (text === "moderate") color = "orange";
+        if (text === "low") color = "green";
+        return (
+          <span style={{ color, fontWeight: 600 }}>{text.toUpperCase()}</span>
+        );
       },
     },
   ];
+
+  if (loading) {
+    <div className="loader">
+      <ClipLoader color="#4A90E2" size={50} />
+    </div>;
+  }
 
   return (
     <div className="dashboard">
@@ -236,15 +130,23 @@ const Dashboard = () => {
       <div className="section-inner">
         <div className="card">
           <h3 className="title">Invested Amount</h3>
-          <div className="value">Rs. 150,000</div>
+          <div className="value">Rs. {data?.invested_amount}</div>
         </div>
         <div className="card">
           <h3 className="title">Current Stock Holding</h3>
-          <div className="value positive">Rs. 890.50</div>
+          <div className="value positive">
+            Rs. {data?.current_stock_holding}
+          </div>
         </div>
         <div className="card">
           <h3 className="title">Profit/Loss</h3>
-          <div className="value positive">3.8% Gain</div>
+          <div
+            className={`value ${
+              data?.profit_loss > 0 ? "positive" : "negative"
+            }`}
+          >
+            {data?.profit_loss}% {data?.profit_loss > 0 ? "Gain" : "Loss"}
+          </div>
         </div>
         <div className="card">
           <h3 className="title">Day Change %</h3>
@@ -254,16 +156,16 @@ const Dashboard = () => {
 
       <div className="section">
         <div className="area-chart">
-          <AreaChart />
+          <AreaChart data={data?.portfolio_values} />
         </div>
       </div>
 
       <div className="charts-container">
         <div className="section">
-          <RadialBarChart />
+          <RadialBarChart data={data?.stock_distribution_by_sector} />
         </div>
         <div className="section">
-          <PolarAreaChart />
+          <PolarAreaChart data={data?.stock_distribution_by_company} />
         </div>
       </div>
 
@@ -272,7 +174,7 @@ const Dashboard = () => {
         <div className="table-container">
           <Table
             columns={columnsStock}
-            dataSource={dataStock}
+            dataSource={data?.stock_holdings}
             pagination={false}
             bordered
           />
@@ -284,7 +186,7 @@ const Dashboard = () => {
           <h2>Stock Suggestions</h2>
           <Table
             columns={columnsSuggestions}
-            dataSource={dataSuggestions}
+            dataSource={data?.stock_suggestions}
             pagination={false}
             bordered
           />
