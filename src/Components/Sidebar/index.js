@@ -3,10 +3,18 @@ import Sider from "antd/es/layout/Sider";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../Assets/Images/logo.png";
-import { MdOutlineDashboardCustomize, MdOutlineSpeed } from "react-icons/md";
+import {
+  MdOutlineDashboardCustomize,
+  MdOutlineSpeed,
+  MdImportantDevices,
+  MdWatchLater,
+  MdNewspaper,
+  MdOutlineSettings,
+} from "react-icons/md";
+import { IoMdStopwatch } from "react-icons/io";
 import { BsFillFuelPumpFill } from "react-icons/bs";
 import BluetoothDriveIcon from "@mui/icons-material/BluetoothDrive";
-import { LogoutOutlined } from "@ant-design/icons";
+import { LogoutOutlined, MonitorOutlined } from "@ant-design/icons";
 
 import "./style.css";
 
@@ -42,7 +50,7 @@ const Sidebar = ({
         <>
           <div className="left-decor"></div>
           <Link to="/portfolio">
-            <MdOutlineSpeed size={20} />
+            <MdImportantDevices size={20} />
             <span className="menu-item-label">Portfolio</span>
           </Link>
         </>
@@ -66,7 +74,7 @@ const Sidebar = ({
         <>
           <div className="left-decor"></div>
           <Link to="/watchlists&alerts">
-            <BluetoothDriveIcon size={20} />
+            <MdWatchLater size={20} />
             <span className="menu-item-label">Watchlists & Alerts</span>
           </Link>
         </>
@@ -78,7 +86,7 @@ const Sidebar = ({
         <>
           <div className="left-decor"></div>
           <Link to="/stock-news">
-            <BluetoothDriveIcon size={20} />
+            <MdNewspaper size={20} />
             <span className="menu-item-label">Stock News</span>
           </Link>
         </>
@@ -90,7 +98,7 @@ const Sidebar = ({
         <>
           <div className="left-decor"></div>
           <Link to="/settings">
-            <BluetoothDriveIcon size={20} />
+            <MdOutlineSettings size={20} />
             <span className="menu-item-label">Settings</span>
           </Link>
         </>

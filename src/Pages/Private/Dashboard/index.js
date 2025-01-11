@@ -150,7 +150,13 @@ const Dashboard = ({ userData }) => {
         </div>
         <div className="card">
           <h3 className="title">Day Change %</h3>
-          <div className="value negative">-1.2%</div>
+          <div
+            className={`value ${
+              data?.day_change > 0 ? "positive" : "negative"
+            }`}
+          >
+            {data?.day_change}%
+          </div>
         </div>
       </div>
 

@@ -5,7 +5,7 @@ import uploadLogo from "../../../Assets/Icons/uploadLogo.svg";
 import { message, Upload } from "antd";
 const { Dragger } = Upload;
 
-const UserSettings = () => {
+const UserSettings = ({ userData }) => {
   const size = "large";
 
   const onFinishReg = (values) => {
@@ -66,13 +66,14 @@ const UserSettings = () => {
                   name="registration-form"
                   layout="vertical"
                   onFinish={onFinishReg}
+                  initialValues={userData}
                 >
                   <div className="form-content">
                     <div className="form-row">
                       <div className="form-inner">
                         <Form.Item
-                          label="First Name"
-                          name="firstName"
+                          label="Full Name"
+                          name="name"
                           rules={[
                             {
                               required: true,
@@ -83,7 +84,7 @@ const UserSettings = () => {
                           <Input />
                         </Form.Item>
                       </div>
-                      <div className="form-inner">
+                      {/* <div className="form-inner">
                         <Form.Item
                           label="Last Name"
                           name="lastName"
@@ -96,7 +97,7 @@ const UserSettings = () => {
                         >
                           <Input />
                         </Form.Item>
-                      </div>
+                      </div> */}
                     </div>
                     <Form.Item
                       label="Email Address"
@@ -117,7 +118,7 @@ const UserSettings = () => {
 
                     <Form.Item
                       label="CDC ID"
-                      name="cdc"
+                      name="cdc_id"
                       rules={[
                         {
                           required: true,
@@ -128,13 +129,13 @@ const UserSettings = () => {
                       <Input />
                     </Form.Item>
                   </div>
-                  <div className="form-footer">
+                  {/* <div className="form-footer">
                     <Form.Item style={{ marginBottom: 0 }}>
                       <Button type="primary" htmlType="submit">
                         Save
                       </Button>
                     </Form.Item>
-                  </div>
+                  </div> */}
                 </Form>
               </div>
             </div>
@@ -142,7 +143,7 @@ const UserSettings = () => {
 
           <div className="line" />
 
-          <div className="section">
+          {/* <div className="section">
             <div className="left">
               <div className="title">
                 <span>Password & Security</span>
@@ -208,7 +209,7 @@ const UserSettings = () => {
                 </Form>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="line" />
         </div>

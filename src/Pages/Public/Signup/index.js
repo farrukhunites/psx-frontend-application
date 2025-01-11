@@ -123,7 +123,7 @@ const Signup = ({ setUserType }) => {
           />
         </Form.Item>
         <Form.Item
-          name="confirmPassword"
+          name="confirm_password"
           rules={[
             {
               required: true,
