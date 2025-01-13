@@ -196,7 +196,14 @@ const AddStock = ({ userData }) => {
             label="Stock Name"
             rules={[{ required: true, message: "Please select a stock" }]}
           >
-            <Select placeholder="Select stock" onChange={handleStockChange}>
+            <Select
+              placeholder="Select stock"
+              onChange={handleStockChange}
+              showSearch
+              filterOption={(input, option) =>
+                option.value.toLowerCase().includes(input.toLowerCase())
+              }
+            >
               {stockList.map((stock, index) => (
                 <Option key={index} value={stock.stock_symbol}>
                   {`${stock.stock_name} (${stock.stock_symbol})`}
