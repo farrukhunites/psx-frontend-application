@@ -14,7 +14,7 @@ const AppRoutes = () => {
   console.log(userData);
 
   useEffect(() => {
-    setUserData(JSON.parse(localStorage.getItem("userData")));
+    // setUserData(JSON.parse(localStorage.getItem("userData")));
     setLoading(false);
   }, []);
 
