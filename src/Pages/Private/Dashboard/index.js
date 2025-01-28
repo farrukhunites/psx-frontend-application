@@ -32,10 +32,16 @@ const Dashboard = ({ userData }) => {
 
   const columnsStock = [
     {
-      title: "Stock Name",
+      title: "Stock Info",
       dataIndex: "stock_name",
-      key: "stock_name",
-      render: (text) => <b>{text}</b>,
+      key: "stock_info",
+      render: (text, record) => (
+        <div>
+          <b>
+            {text} ({record.symbol})
+          </b>{" "}
+        </div>
+      ),
     },
     {
       title: "Price Bought",
@@ -79,7 +85,13 @@ const Dashboard = ({ userData }) => {
       title: "Stock Name",
       dataIndex: "stock_name",
       key: "stockName",
-      render: (text) => <b>{text}</b>,
+      render: (text, record) => (
+        <div>
+          <b>
+            {text} ({record.symbol})
+          </b>{" "}
+        </div>
+      ),
     },
     {
       title: "Current Price",

@@ -11,10 +11,10 @@ const AppRoutes = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(userData);
+  console.log(userData, userType);
 
   useEffect(() => {
-    // setUserData(JSON.parse(localStorage.getItem("userData")));
+    setUserData(JSON.parse(localStorage.getItem("userData")));
     setLoading(false);
   }, []);
 

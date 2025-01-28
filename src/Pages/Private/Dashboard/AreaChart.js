@@ -2,8 +2,8 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 const AreaChart = ({ data }) => {
-  const categories = data?.map((item) => item?.x) || [];
-  const portfolioValues = data?.map((item) => item?.y) || [];
+  const categories = data?.map((item) => item?.x).slice(-10) || [];
+  const portfolioValues = data?.map((item) => item?.y).slice(-10) || [];
 
   const options = {
     chart: {
@@ -51,7 +51,7 @@ const AreaChart = ({ data }) => {
   const series = [
     {
       name: "Portfolio Value",
-      data: portfolioValues, // Example portfolio values for last 10 days
+      data: portfolioValues,
     },
   ];
 
