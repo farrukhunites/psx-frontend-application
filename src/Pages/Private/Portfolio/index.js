@@ -268,7 +268,10 @@ const Portfolio = ({ userData }) => {
         </div>
         <Collapse accordion>
           {data?.stock_holding_details?.map((stock, index) => (
-            <Panel header={stock?.stock_name} key={index}>
+            <Panel
+              header={`${stock?.stock_name} (${stock?.stock_symbol})`}
+              key={index}
+            >
               <div className="portfolio stock-details-horizontal">
                 <p>
                   <strong>Current Price:</strong> {stock?.current_price}
