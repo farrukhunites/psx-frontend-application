@@ -32,4 +32,21 @@ const createLogin = async (username, password, email, risk_preference) => {
   }
 };
 
-export { login, createLogin };
+const updateUser = async (user_id, name, cdc_id, email) => {
+  try {
+    const response = await axios.put(
+      `${process.env.REACT_APP_BASE_URL}user/update/`,
+      {
+        user_id,
+        name,
+        email,
+        cdc_id,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || "An error occurred while logging in";
+  }
+};
+
+export { login, createLogin, updateUser };

@@ -16,17 +16,17 @@ const Dashboard = ({ userData }) => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const data = await getDashboard(userData?.id); // Fetch data using API function
-        setData(data); // Update state with fetched data
+        const data = await getDashboard(userData?.id);
+        setData(data);
       } catch (err) {
-        console.log(err); // Set error if API call fails
+        console.log(err);
       } finally {
-        setLoading(false); // Stop loading indicator
+        setLoading(false);
       }
     };
 
     if (userData?.id) {
-      fetchDashboardData(); // Trigger API call
+      fetchDashboardData();
     }
   }, [userData]);
 
