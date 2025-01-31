@@ -73,6 +73,25 @@
   background-color: red;
 }
 
+@media screen and (max-width: 1000px) {
+  .portfolio .inner-section {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  .portfolio .user-info {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .portfolio .portfolio-info {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
 .portfolio .accordion-title {
   font-size: 24px;
   color: var(--blue);
@@ -100,8 +119,8 @@
 
 .portfolio .stock-details-horizontal p {
   flex: 1;
-  margin: 5px 15px;
-  min-width: 120px;
+  margin: 0;
+  /* min-width: 120px; */
 }
 
 .portfolio .stock-details-horizontal p strong {
@@ -124,6 +143,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 440px) {
+  .portfolio .btn-holder,
+  .portfolio .section-head {
+    flex-direction: column;
+    margin-bottom: 5px;
+    /* gap: 10px; */
+  }
 }
 
 .portfolio .table-container .ant-table {

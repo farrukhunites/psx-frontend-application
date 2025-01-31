@@ -393,6 +393,7 @@ const Portfolio = ({ userData }) => {
         <h2 className="accordion-title">Top 5 Performing Stocks</h2>
         <div className="table-container">
           <Table
+            scroll={{ x: "max-content" }}
             columns={stockColumns}
             dataSource={data?.top_stocks?.slice().reverse()}
             pagination={false}
@@ -403,6 +404,7 @@ const Portfolio = ({ userData }) => {
         <h2 className="accordion-title">Worst 5 Performing Stocks</h2>
         <div className="table-container">
           <Table
+            scroll={{ x: "max-content" }}
             columns={stockColumns}
             dataSource={data?.worst_stocks}
             pagination={false}
@@ -415,6 +417,7 @@ const Portfolio = ({ userData }) => {
         <h2 className="accordion-title">Transaction History</h2>
         <div className="table-container">
           <Table
+            scroll={{ x: "max-content" }}
             columns={transactionColumns}
             dataSource={transactions}
             pagination={false}

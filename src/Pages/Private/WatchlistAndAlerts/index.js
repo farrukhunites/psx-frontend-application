@@ -165,7 +165,7 @@ const WatchlistAndAlerts = ({ userData }) => {
           <h3 className="accordion-title">Your Watchlist</h3>
           <Select
             placeholder="Add a stock to your watchlist"
-            style={{ width: 300 }}
+            // style={{ width: 300 }}
             showSearch // Enable search functionality
             onChange={(value) => addToWatchlist(value)}
             filterOption={
