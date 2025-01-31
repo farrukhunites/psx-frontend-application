@@ -191,6 +191,7 @@ const Dashboard = ({ userData }) => {
         <h2>Stock Holdings</h2>
         <div className="table-container">
           <Table
+            scroll={{ x: "max-content" }}
             columns={columnsStock}
             dataSource={data?.stock_holdings}
             pagination={false}
@@ -203,6 +204,7 @@ const Dashboard = ({ userData }) => {
         <div className="table-container">
           <h2>Stock Suggestions</h2>
           <Table
+            scroll={{ x: "max-content" }}
             columns={columnsSuggestions}
             dataSource={data?.stock_suggestions}
             pagination={false}
