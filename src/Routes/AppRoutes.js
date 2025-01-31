@@ -23,7 +23,9 @@ const AppRoutes = () => {
       <AppLayout
         setUserType={setUserType}
         setUserData={setUserData}
-        contents={<PrivateRoutes userData={userData} />}
+        contents={
+          <PrivateRoutes userData={userData} setUserData={setUserData} />
+        }
       />
     );
   } else {

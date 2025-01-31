@@ -8,14 +8,17 @@ import WatchlistAndAlerts from "../Pages/Private/WatchlistAndAlerts";
 import StockNews from "../Pages/Private/StockNews";
 import StockAnalysis from "../Pages/Private/StockAnalysis";
 
-const PrivateRoutes = ({ userData }) => {
+const PrivateRoutes = ({ userData, setUserData }) => {
   return (
     <Routes>
       <Route path="/dashboard" element={<Dashboard userData={userData} />} />
       <Route path="/portfolio" element={<Portfolio userData={userData} />} />
       <Route path="/buy-stock" element={<AddStock userData={userData} />} />
       <Route path="/stock-analysis" element={<StockAnalysis />} />
-      <Route path="/settings" element={<UserSettings userData={userData} />} />
+      <Route
+        path="/settings"
+        element={<UserSettings userData={userData} setUserData={setUserData} />}
+      />
       <Route
         path="/watchlists&alerts"
         element={<WatchlistAndAlerts userData={userData} />}

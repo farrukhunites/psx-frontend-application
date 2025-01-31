@@ -32,13 +32,18 @@ const Signup = ({ setUserType }) => {
   const onFinish = async (values) => {
     console.log("Finish:", values);
 
-    if (values?.password === values?.confirmPassword) {
+    if (values?.password === values?.confirm_password) {
       setLoading(true); // Show loading spinner
       try {
-        const response = await createLogin(values.username, values.password);
+        const response = await createLogin(
+          values?.username,
+          values?.password,
+          values?.email,
+          values?.riskPreference
+        );
         openNotification("success", "Login Successful", response.message);
 
-        console.log("Login successful:", response.admin);
+        console.log("Login successful:", response);
         setUserType("user");
         navigate("/dashboard");
       } catch (err) {
@@ -56,6 +61,7 @@ const Signup = ({ setUserType }) => {
       setUserType("user");
       navigate("/dashboard");
     } else {
+      console.log(values?.password, values?.confirm_password);
       message.error("The passwords entered do not match!");
     }
   };

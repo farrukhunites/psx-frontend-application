@@ -6,7 +6,7 @@ import { message, Upload } from "antd";
 import { updateUser } from "../../../API/Auth";
 const { Dragger } = Upload;
 
-const UserSettings = ({ userData }) => {
+const UserSettings = ({ userData, setUserData }) => {
   const size = "large";
 
   const onFinishReg = async (values) => {
@@ -19,6 +19,30 @@ const UserSettings = ({ userData }) => {
         values?.cdc_id,
         values?.email
       );
+
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          id: userData?.id,
+          name: values?.name,
+          username: userData?.username,
+          email: userData?.email,
+          cdc_id: values?.cdc_id,
+          date_created: userData?.date_created,
+          risk_preference: userData?.risk_preference,
+        })
+      );
+
+      setUserData({
+        id: userData?.id,
+        name: values?.name,
+        username: userData?.username,
+        email: userData?.email,
+        cdc_id: values?.cdc_id,
+        date_created: userData?.date_created,
+        risk_preference: userData?.risk_preference,
+      });
+
       message.success("User updated successfully!");
     } catch (err) {
       console.log(err); // Set error if API call fails
