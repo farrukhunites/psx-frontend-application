@@ -212,7 +212,7 @@ const Portfolio = ({ userData }) => {
             </p>
             <p>
               <strong>Username: </strong>
-              {userData?.username}
+              {userData?.username.toUpperCase()}
             </p>
             <p>
               <strong>CDC ID: </strong>
@@ -227,7 +227,7 @@ const Portfolio = ({ userData }) => {
             </div>
             <div className="info-item">
               <h3>Invested Amount</h3>
-              <p>Rs. {data?.invested_amount}</p>
+              <p>Rs. {data?.investedAmount}</p>
             </div>
             <div className="info-item">
               <h3>Current Profit/Loss</h3>
@@ -236,6 +236,7 @@ const Portfolio = ({ userData }) => {
                   color: data?.profit_loss_value > 0 ? "green" : "red",
                 }}
               >
+                {" "}
                 Rs. {data?.profit_loss_value} ({data?.profit_loss})
               </p>
             </div>
