@@ -37,7 +37,7 @@ const UserSettings = ({ userData, setUserData }) => {
         id: userData?.id,
         name: values?.name,
         username: userData?.username,
-        email: vale?.email,
+        email: values?.email,
         cdc_id: values?.cdc_id,
         date_created: userData?.date_created,
         risk_preference: userData?.risk_preference,
