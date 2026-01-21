@@ -1,78 +1,94 @@
-import React, { useState } from "react";
-import { List, Button, Modal, Form, InputNumber, Select, Alert } from "antd";
+import React, { useEffect, useState } from "react";
+import {
+  List,
+  Button,
+  Modal,
+  Form,
+  InputNumber,
+  Select,
+  Alert,
+  message,
+} from "antd";
 import "./style.css";
+import { getAllStocks } from "../../../API/Stocks";
+import {
+  createWatchList,
+  deleteWatchList,
+  getWatchListData,
+} from "../../../API/Watchlist";
+import { createAlert, deleteAlert, getAlerts } from "../../../API/Alerts";
 
 const { Option } = Select;
 
-const WatchlistAndAlerts = () => {
+const WatchlistAndAlerts = ({ userData }) => {
   // States
   const [watchlist, setWatchlist] = useState([]);
+  const [watchlistId, setWatchlistId] = useState(null);
   const [alertList, setAlertList] = useState([]);
-  const [fulfilledAlerts, setFulfilledAlerts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedStock, setSelectedStock] = useState(null);
+  const [stockData, setStockData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [form] = Form.useForm();
 
-  const stockOptions = [
-    {
-      name: "Oil & Gas Development Company",
-      ticker: "OGDC",
-      currentPrice: 160,
-      volume: 120000,
-      marketCap: "50B",
-      riskLevel: "medium",
-    },
-    {
-      name: "Habib Bank Limited",
-      ticker: "HBL",
-      currentPrice: 95,
-      volume: 80000,
-      marketCap: "40B",
-      riskLevel: "high",
-    },
-    {
-      name: "Lucky Cement",
-      ticker: "LUCK",
-      currentPrice: 710,
-      volume: 50000,
-      marketCap: "30B",
-      riskLevel: "low",
-    },
-    {
-      name: "United Bank Limited",
-      ticker: "UBL",
-      currentPrice: 130,
-      volume: 70000,
-      marketCap: "35B",
-      riskLevel: "medium",
-    },
-    {
-      name: "Fauji Fertilizer Company",
-      ticker: "FFC",
-      currentPrice: 175,
-      volume: 60000,
-      marketCap: "25B",
-      riskLevel: "low",
-    },
-    {
-      name: "Pakistan Petroleum Limited",
-      ticker: "PPL",
-      currentPrice: 190,
-      volume: 65000,
-      marketCap: "45B",
-      riskLevel: "medium",
-    },
-  ];
-
-  const addToWatchlist = (stock) => {
-    if (!watchlist.find((s) => s.ticker === stock.ticker)) {
-      setWatchlist([...watchlist, stock]);
+  const getWatchList = async () => {
+    try {
+      const data = await getWatchListData(userData?.id); // Fetch data using API function
+      setWatchlist(data);
+    } catch (err) {
+      console.log(err); // Set error if API call fails
+    } finally {
+      setLoading(false); // Stop loading indicator
     }
   };
 
-  const openAlertModal = (stock) => {
-    setSelectedStock(stock);
+  const getAlertList = async () => {
+    try {
+      const data = await getAlerts(userData?.id); // Fetch data using API function
+      setAlertList(data);
+    } catch (err) {
+      console.log(err); // Set error if API call fails
+    } finally {
+      setLoading(false); // Stop loading indicator
+    }
+  };
+
+  useEffect(() => {
+    const getStocksData = async () => {
+      try {
+        const data = await getAllStocks(); // Fetch data using API function
+        setStockData(data);
+      } catch (err) {
+        console.log(err); // Set error if API call fails
+      } finally {
+        setLoading(false); // Stop loading indicator
+      }
+    };
+
+    getStocksData();
+
+    if (userData?.id) {
+      getWatchList();
+      getAlertList();
+    }
+  }, []);
+
+  const addToWatchlist = async (stock) => {
+    try {
+      const data = await createWatchList(userData?.id, stock); // Fetch data using API function
+      getWatchList();
+      message.success("Added to Watchlist");
+    } catch (err) {
+      console.log(err); // Set error if API call fails
+      message.error(err);
+    } finally {
+      setLoading(false); // Stop loading indicator
+    }
+  };
+
+  const openAlertModal = (id) => {
+    setWatchlistId(id);
     setIsModalVisible(true);
   };
 
@@ -81,46 +97,64 @@ const WatchlistAndAlerts = () => {
     form.resetFields();
   };
 
-  const setAlert = (values) => {
-    const alert = {
-      stock: selectedStock,
-      price: values.price,
-      condition: values.condition,
-    };
-    setAlertList([...alertList, alert]);
-    setFulfilledAlerts([...fulfilledAlerts, alert]);
+  const setAlert = async (values) => {
+    console.log(values, watchlistId, userData?.id);
+
+    try {
+      const data = await createAlert(
+        userData?.id,
+        watchlistId,
+        values?.condition,
+        values?.price
+      ); // Fetch data using API function
+      getAlertList();
+      message.success("Alert Added");
+    } catch (err) {
+      console.log(err); // Set error if API call fails
+      message.error(err);
+    } finally {
+      setLoading(false); // Stop loading indicator
+    }
+
     setIsModalVisible(false);
     form.resetFields();
   };
 
-  //   const checkAlerts = () => {
-  //     const currentAlerts = alertList.filter((alert) => {
-  //       const stock = alert.stock;
-  //       const conditionMet =
-  //         alert.condition === "above"
-  //           ? stock.currentPrice > alert.price
-  //           : stock.currentPrice < alert.price;
-  //       if (conditionMet) {
-  //         setFulfilledAlerts((prev) => [...prev, alert]);
-  //       }
-  //       return !conditionMet;
-  //     });
-
-  //     setAlertList(currentAlerts);
-  //   };
-
-  const removeFromWatchlist = (ticker) => {
-    setWatchlist(watchlist.filter((stock) => stock.ticker !== ticker));
-    setAlertList(alertList.filter((alert) => alert.stock.ticker !== ticker));
+  const removeFromWatchlist = async (stock) => {
+    try {
+      console.log(userData?.id, stock);
+      const data = await deleteWatchList(userData?.id, stock); // Fetch data using API function
+      getWatchList();
+      getAlertList();
+      message.success(`Deleted Succesfully`);
+    } catch (err) {
+      console.log(err);
+      message.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const closeAlert = (alert) => {
-    setAlertList(alertList.filter((a) => a !== alert));
+  const closeAlert = async (id) => {
+    console.log(id);
+
+    try {
+      const data = await deleteAlert(id); // Fetch data using API function
+
+      getAlertList();
+      message.success(`Deleted Alert Succesfully`);
+    } catch (err) {
+      console.log(err);
+      message.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const closeFulfilledAlert = (alert) => {
-    setFulfilledAlerts(fulfilledAlerts.filter((a) => a !== alert));
-  };
+  console.log(watchlist);
+
+  const filteredAlerts = alertList.filter((alert) => alert?.fulfilled);
+  const filteredAlerts2 = alertList.filter((alert) => !alert?.fulfilled);
 
   return (
     <div className="watchlist-alerts-page">
@@ -131,19 +165,17 @@ const WatchlistAndAlerts = () => {
           <h3 className="accordion-title">Your Watchlist</h3>
           <Select
             placeholder="Add a stock to your watchlist"
-            style={{ width: 300 }}
+            // style={{ width: 300 }}
             showSearch // Enable search functionality
-            onChange={(value) =>
-              addToWatchlist(stockOptions.find((s) => s.ticker === value))
-            }
+            onChange={(value) => addToWatchlist(value)}
             filterOption={
               (input, option) =>
                 option.value.toLowerCase().includes(input.toLowerCase()) // Use option.value directly
             }
           >
-            {stockOptions.map((stock) => (
-              <Option key={stock.ticker} value={stock.ticker}>
-                {`${stock.name} (${stock.ticker})`}{" "}
+            {stockData.map((stock) => (
+              <Option key={stock?.stock_symbol} value={stock?.stock_symbol}>
+                {`${stock?.stock_name} (${stock?.stock_symbol})`}{" "}
                 {/* Convert to a single string */}
               </Option>
             ))}
@@ -157,14 +189,14 @@ const WatchlistAndAlerts = () => {
                 actions={[
                   <Button
                     type="danger"
-                    onClick={() => removeFromWatchlist(stock.ticker)}
+                    onClick={() => removeFromWatchlist(stock?.stock_symbol)}
                     key="remove"
                   >
                     Remove
                   </Button>,
                   <Button
                     type="primary"
-                    onClick={() => openAlertModal(stock)}
+                    onClick={() => openAlertModal(stock?.id)}
                     key="set-alert"
                   >
                     Set Alert
@@ -173,12 +205,12 @@ const WatchlistAndAlerts = () => {
               >
                 <div className="stock-detail">
                   <strong>
-                    {stock.name} ({stock.ticker})
+                    {stock?.stock_name} ({stock?.stock_symbol})
                   </strong>
-                  <p>Current Price: Rs. {stock.currentPrice}</p>
-                  <p>Volume: {stock.volume}</p>
-                  <p>Market Cap: {stock.marketCap}</p>
-                  <p>Risk Level: {stock.riskLevel}</p>
+                  <p>Current Price: Rs. {stock?.current_price}</p>
+                  <p>Volume: {stock?.volume}</p>
+
+                  <p>Risk Level: {stock.risk_level}</p>
                 </div>
               </List.Item>
             )}
@@ -191,25 +223,25 @@ const WatchlistAndAlerts = () => {
           <h3 className="accordion-title">Your Alerts</h3>
           <div className="fulfilled-alerts">
             <h3>Fullfilled Alerts</h3>
-            {fulfilledAlerts.length > 0 ? (
+            {filteredAlerts.length > 0 ? (
               <List
                 size="large"
                 bordered
-                dataSource={fulfilledAlerts}
+                dataSource={filteredAlerts}
                 renderItem={(alert) => (
                   <List.Item>
                     <Alert
-                      message={`Alert triggered for ${alert.stock.name} (${alert.stock.ticker})`}
+                      message={`Alert triggered for ${alert?.stock_name} (${alert?.stock_symbol})`}
                       description={`Condition: Price ${
-                        alert.condition === "above" ? ">" : "<"
-                      } Rs. ${alert.price}`}
+                        alert?.condition === "above" ? ">" : "<"
+                      } Rs. ${alert?.price}`}
                       type="success"
                       showIcon
                       action={
                         <Button
                           size="small"
                           type="link"
-                          onClick={() => closeFulfilledAlert(alert)}
+                          onClick={() => closeAlert(alert?.id)}
                         >
                           Close
                         </Button>
@@ -224,25 +256,25 @@ const WatchlistAndAlerts = () => {
           </div>
           <div className="remaining-alerts">
             <h3>Remaining Alerts</h3>
-            {alertList.length > 0 ? (
+            {filteredAlerts2.length > 0 ? (
               <List
                 size="large"
                 bordered
-                dataSource={alertList}
+                dataSource={filteredAlerts2}
                 renderItem={(alert) => (
                   <List.Item>
                     <Alert
-                      message={`Alert set for ${alert.stock.name} (${alert.stock.ticker})`}
+                      message={`Alert set for ${alert?.stock_name} (${alert?.stock_symbol})`}
                       description={`Condition: Price ${
-                        alert.condition === "above" ? ">" : "<"
-                      } Rs. ${alert.price}`}
+                        alert?.condition === "above" ? ">" : "<"
+                      } Rs. ${alert?.price}`}
                       type="info"
                       showIcon
                       action={
                         <Button
                           size="small"
                           type="link"
-                          onClick={() => closeAlert(alert)}
+                          onClick={() => closeAlert(alert?.id)}
                         >
                           Close
                         </Button>

@@ -1,22 +1,67 @@
-import { Button, Checkbox, Form, Input, Radio, Tag, message } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  Radio,
+  Tag,
+  message,
+  notification,
+} from "antd";
 import { LockOutlined, UserOutlined, StockOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../Assets/Images/logo.png";
 import "./style.css";
+import { createLogin } from "../../../API/Auth";
 
 const Signup = ({ setUserType }) => {
+  const [loading, setLoading] = useState(false); // State to manage the loading spinner on the button
+
+  const openNotification = (type, message, description) => {
+    notification[type]({
+      message,
+      description,
+      placement: "topRight",
+    });
+  };
+
   const navigate = useNavigate();
   const [riskPreference, setRiskPreference] = useState("moderate");
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log("Finish:", values);
 
-    if (values?.password === values?.confirmPassword) {
+    if (values?.password === values?.confirm_password) {
+      setLoading(true); // Show loading spinner
+      try {
+        const response = await createLogin(
+          values?.username,
+          values?.password,
+          values?.email,
+          values?.riskPreference
+        );
+        openNotification("success", "Login Successful", response.message);
+
+        console.log("Login successful:", response);
+        setUserType("user");
+        navigate("/dashboard");
+      } catch (err) {
+        openNotification(
+          "error",
+          "Login Failed",
+          "Invalid username or password"
+        );
+        console.error("Login failed:", "Invalid username or password");
+      } finally {
+        setLoading(false); // Hide loading spinner
+      }
+
       message.success("Sign Up successful!");
       setUserType("user");
       navigate("/dashboard");
     } else {
+      console.log(values?.password, values?.confirm_password);
       message.error("The passwords entered do not match!");
     }
   };
@@ -52,6 +97,22 @@ const Signup = ({ setUserType }) => {
           />
         </Form.Item>
         <Form.Item
+          name="email"
+          rules={[
+            {
+              type: "email",
+              required: true,
+              message: "Please input your email!",
+            },
+          ]}
+        >
+          <Input
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            placeholder="Email"
+            className="login-input"
+          />
+        </Form.Item>
+        <Form.Item
           name="password"
           rules={[
             {
@@ -68,7 +129,7 @@ const Signup = ({ setUserType }) => {
           />
         </Form.Item>
         <Form.Item
-          name="confirmPassword"
+          name="confirm_password"
           rules={[
             {
               required: true,
@@ -110,7 +171,12 @@ const Signup = ({ setUserType }) => {
           </Link>
         </div>
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-button">
+          <Button
+            loading={loading}
+            type="primary"
+            htmlType="submit"
+            className="login-button"
+          >
             Sign Up
           </Button>
         </Form.Item>

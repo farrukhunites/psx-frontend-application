@@ -1,24 +1,24 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const PolarAreaChart = () => {
+const PolarAreaChart = ({ data }) => {
+  // Ensure data is an array
+  const validData = Array.isArray(data) ? data : [];
+
+  // Map over valid data
+  const categories = validData.map((item) => item?.x);
+  const values = validData.map((item) => item?.y);
+
   const options = {
     chart: {
       type: "polarArea",
     },
-    labels: [
-      "Oil & Gas Development Company",
-      "Habib Bank Limited",
-      "Lucky Cement",
-      "Fauji Fertilizer Company",
-      "Pakistan Telecommunication Company",
-    ],
+    labels: categories,
     fill: {
       opacity: 0.8,
     },
     stroke: {
       width: 1,
-      colors: undefined,
     },
     grid: {
       show: true,
@@ -46,17 +46,22 @@ const PolarAreaChart = () => {
     colors: ["#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0"],
   };
 
-  const series = [160, 95, 210, 175, 32]; // Example stock holdings for each company
+  // Use the values as the series
+  const series = values;
 
   return (
     <div>
       <h3>Stock Distribution by Company</h3>
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="polarArea"
-        height={450}
-      />
+      {validData.length > 0 ? (
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="polarArea"
+          height={450}
+        />
+      ) : (
+        <p>No data available</p>
+      )}
     </div>
   );
 };

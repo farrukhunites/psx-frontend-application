@@ -23,22 +23,37 @@
 
 .dashboard .section-inner {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 20px;
+  gap: 15px; /* Adds spacing between cards */
+}
+
+.dashboard .card {
+  background: #21435c;
+  color: var(--white);
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%; /* Full width by default */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  flex: 1 1 calc(50% - 20px); /* Two cards per row on medium screens */
+}
+
+@media (min-width: 768px) {
+  .dashboard .card {
+    flex: 1 1 calc(33.333% - 20px); /* Three cards per row on tablets */
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard .card {
+    flex: 1 1 calc(24% - 20px); /* Four cards per row on large screens */
+  }
 }
 
 .dashboard .wide-card {
   justify-content: center;
-}
-
-.dashboard .card {
-  background: #222;
-  color: var(--white);
-  border-radius: 10px;
-  padding: 10px;
-  width: 24%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  text-align: center;
 }
 
 .dashboard .card .title {
@@ -65,6 +80,19 @@
   flex-direction: row;
   gap: 20px;
 }
+
+@media (max-width: 1200px) {
+  .dashboard .charts-container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard .charts-container .apexcharts-legend {
+    display: none;
+  }
+}
+
 .dashboard .charts-container .section {
   flex: 1;
 }

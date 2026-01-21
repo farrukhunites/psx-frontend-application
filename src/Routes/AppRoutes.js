@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import PublicRoutes from "./PublicRoutes";
 import PrivateRoutes from "./PrivateRoutes";
@@ -8,19 +8,34 @@ const AppRoutes = () => {
   let routesComponent;
 
   const [userType, setUserType] = useState("public");
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  switch (userType) {
-    case "user":
-      routesComponent = (
-        <AppLayout setUserType={setUserType} contents={<PrivateRoutes />} />
-      );
-      break;
-    case "public":
-      routesComponent = <PublicRoutes setUserType={setUserType} />;
-      break;
-    default:
-      routesComponent = <PublicRoutes setUserType={setUserType} />;
-      break;
+  console.log(userData, userType);
+
+  useEffect(() => {
+    setUserData(JSON.parse(localStorage.getItem("userData")));
+    setLoading(false);
+  }, []);
+
+  if (userData?.id) {
+    routesComponent = (
+      <AppLayout
+        setUserType={setUserType}
+        setUserData={setUserData}
+        contents={
+          <PrivateRoutes userData={userData} setUserData={setUserData} />
+        }
+      />
+    );
+  } else {
+    routesComponent = (
+      <PublicRoutes setUserType={setUserType} setUserData={setUserData} />
+    );
+  }
+
+  if (loading) {
+    return null;
   }
 
   return <BrowserRouter>{routesComponent}</BrowserRouter>;

@@ -1,17 +1,42 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, notification } from "antd";
 import { LockOutlined, UserOutlined, StockOutlined } from "@ant-design/icons";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../Assets/Images/logo.png";
 import "./style.css";
+import { login } from "../../../API/Auth";
 
-const Login = ({ setUserType }) => {
+const Login = ({ setUserType, setUserData }) => {
+  const [loading, setLoading] = useState(false); // State to manage the loading spinner on the button
+
+  const openNotification = (type, message, description) => {
+    notification[type]({
+      message,
+      description,
+      placement: "topRight",
+    });
+  };
+
   const navigate = useNavigate();
 
-  const onFinish = (values) => {
-    console.log("Finish:", values);
-    setUserType("user");
-    navigate("/dashboard");
+  const onFinish = async (values) => {
+    setLoading(true); // Show loading spinner
+    try {
+      const response = await login(values.username, values.password);
+      openNotification("success", "Login Successful", response.message);
+
+      setUserData(response?.user);
+      localStorage.setItem("userData", JSON.stringify(response?.user));
+
+      console.log("Login successful:", response?.message);
+      setUserType("user");
+      navigate("/dashboard");
+    } catch (err) {
+      openNotification("error", "Login Failed", "Invalid username or password");
+      console.error("Login failed:", "Invalid username or password", err);
+    } finally {
+      setLoading(false); // Hide loading spinner
+    }
   };
 
   const goToCDC = () => {
@@ -65,7 +90,12 @@ const Login = ({ setUserType }) => {
         </div>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-button">
+          <Button
+            loading={loading}
+            type="primary"
+            htmlType="submit"
+            className="login-button"
+          >
             Login
           </Button>
         </Form.Item>
